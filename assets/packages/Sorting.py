@@ -1,8 +1,6 @@
 #coding utf-8
-import os
-import os.path
-import shutil
-from getpass import getuser
+import os, os.path, shutil
+
 
 class sorting:
     """
@@ -12,35 +10,35 @@ class sorting:
         """
         Intialisation variables 
         """
-        self.courant_path = ''
-        self.extension = ''
         self.final_directory = ''
         self.list_file = ''
-        self.file_name = ''
         self.final_directory = ''
-        self.user_name = ''
+        self.path = { #liste des paths en fonction des lettres par lesquelles commencent le fichier
+             'HG_' : 'C:/Users/cmaze/OneDrive/fichiers/école/3e/HG',
+             'SPC_': 'C:/Users/cmaze/OneDrive/fichiers/école/3e/physique',
+             "MATHS_": 'C:/Users/cmaze/OneDrive/fichiers/école/3e/maths'
+            }
+        self.file_path = ''
         
 
-    def determine_path(self, final_directory):
-        self.user_name = getuser()
-        self.directory = os.path.join("C:/Users", self.user_name, final_directory)
+    def sort_directory_letters(self):
+        try:
+            self.start_directory = input("start folder: ")
+        except OSError:
+            print("dossier  introuvable")
 
-    def sort_directory(self, courant_path, extension):
-        self.courant_path = sorting.determine_path(self.courant_path)
-        os.chdir(self.courant_path)
-        self.final_directory = sorting.determine_path(self.final_directory)
-        if not os.path.exists(self.final_directory):
-            print("regive your final path: ")
-        
-        
-        else:
-            for files in self.list_file:
-                self.file_name = os.path.splitext(files)
-                if self.file_name[1] == self.extension:
-                    shutil.move(files, self.final_directory)
+        self.list_file = os.listdir(self.start_directory)
+        for files in self.list_file:
+            for k, v in self.path.items():
+                if files.startswith(k):
+                    self.file_path = os.path.join(self.start_directory, files)
+                    shutil.move(self.file_path, self.path[k])
+                    print("transfert effectué")
+            
+
+
 
                     
             
-sorting = sorting()
-sorting.sort_directory('Documents', 'Images')
+
 
