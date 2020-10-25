@@ -9,3 +9,15 @@ class JsonAction:
     def __init__(self):
         pass
     
+
+
+    def write_info(self):
+        pass
+
+    def modifie_info(self):
+        pass
+
+    def get_info(self):
+        pass
+
+    def delete_info()
