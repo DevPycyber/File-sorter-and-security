@@ -1,6 +1,6 @@
 #coding utf-8
 import os, os.path, shutil
-
+from configparser import ConfigParser
 
 class sorting:
     """
@@ -10,56 +10,43 @@ class sorting:
         """
         Intialisation variables 
         """
-        self.choice = ''
         self.final_directory = ''
         self.list_file = ''
         self.final_directory = ''
-        self.path_letter = { #liste des paths en fonction des lettres par lesquelles commencent le fichier
-             'HG_' : 'C:/Users/cmaze/OneDrive/fichiers/école/3e/HG',
-             'SPC_': 'C:/Users/cmaze/OneDrive/fichiers/école/3e/physique',
-             "MATHS_": 'C:/Users/cmaze/OneDrive/fichiers/école/3e/maths'
-            }
-        self.path_extension = { #liste des paths en fonction de l'extension du fichier
-                '.docx': "C:/Users/cmaze/Onedrive/Public/Public/Documents",
-                '.txt': "C:/Users/cmaze/Onedrive/Public/Public/Documents",
-                '.pdf': "C:/Users/cmaze/Onedrive/Public/Public/Documents"    
-            }
-            
         self.file_path = ''
-        
+        self.path_config = 'C:/Users/cmaze/OneDrive/developpement/python/projets systeme/File-sorter-and-security/configuration'
+        self.parser = ConfigParser()
+        self.content = None
+        self.method_ext = None
+        self.method_lett = None
+        self.path_letters = None
+        self.paths_ext = None
+        self.pl = None
 
-    def choice_sort(self):
-        try:
-            self.file_path = input("start folder? ")
-            assert os.path.isdir(self.file_path)
-            
-        except AssertionError:
-            print("Folder not found, please retry: ")
-            self.file_path = input("start folder? ")
+    def get_info_config_ini(self):
+        os.chdir(self.path_config)
+        self.parser.read('config.ini')
+        self.method_ext = self.parser.get("method", "extension")
+        self.method_lett = self.parser.get("method", "letters")
         
-        self.choice = input("letters or extensions?(l, e) ")
-        self.list_file = os.listdir(self.file_path)
-        
-        
-        for files in self.list_file:
-            if self.choice == 'l':           
-                for k, v in self.path_letter.items():
-                    if files.startswith(k):
-                        self.final_directory = self.path_letter[k]
-                        self.start_directory = os.path.join(self.file_path, files)
-                        shutil.move(self.start_directory, self.final_directory)
-                        
-            elif self.choice == 'e':
-                for k1, v1 in self.path_extension.items():
-                    if files.endswith(k1):
-                        self.final_directory = self.path_extension[k1]
-                        self.start_directory = os.path.join(self.file_path, files)
-                        shutil.move(self.start_directory, self.final_directory)
-        print("transfert effectué")
-
                 
+
+sort = sorting()
+sort.get_info_config_ini()
+
         
             
+
+
+sorter = sorting()
+sorter.get_info_config_ini()
+
+
+
+
+            
+        
+        
 
 
 
